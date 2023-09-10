@@ -418,12 +418,9 @@ def Game():
     with open("score.txt",'r') as file:
         storedscore = file.read()
         if int(storedscore) > 0:
-            print(380)
             highScore = int(storedscore)
         elif file.read() == "":
-            print(383)
             highScore = 0
-    print(highScore)
     global MenuHelp, game_over, mainGame, Help, Home, Menu, platform1,platform2,platform3,Died
     while not game_over and not Help and not Home:
         if Screens==0:
@@ -667,20 +664,15 @@ def Game():
 
                 if man.isJump:
                     if (Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x and man.y+playerHeight>Screen2pos1y+15):
-                        print("character is",man.y+playerHeight, "obstacle is",Screen2pos1y+15)
                         over2 = True
                     elif (Screen2pos2 + obstacle2x + ObstacleImage1.get_width() > man.x > Screen2pos2 + obstacle2x and man.y+playerHeight>Screen2pos2y+15):
-                        print("character is", man.y + playerHeight, "obstacle is", Screen2pos2y+15)
                         over2 = True
                     elif (Screen2pos3 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos3 + obstacle2x and man.y+playerHeight>Screen2pos3y+15):
-                        print("character is", man.y + playerHeight, "obstacle is", Screen2pos3y+15)
                         over2 = True
                     elif (Screen2pos4 + obstacle2x + ObstacleImage1.get_width() > man.x > Screen2pos4 + obstacle2x and man.y+playerHeight>Screen2pos4y+15):
-                        print("character is", man.y + playerHeight, "obstacle is", Screen2pos4y+15)
                         over2 = True
 
                 if over2 and man.y + playerHeight > Screen2pos1y+15 and Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x:
-                    print("695")
                     man.y = Screen2pos1y+15 - playerHeight
 
                 elif over2 and man.y + playerHeight > Screen2pos2y+15 and Screen2pos2 + obstacle2x + ObstacleImage1.get_width() > man.x > Screen2pos2 + obstacle2x:
@@ -697,7 +689,6 @@ def Game():
 
                 if man.x+playerWidth>Screen2pos1+obstacle2x:
                     if man.y+playerHeight>Screen2pos1y+15 and man.y < Screen2pos1y+15 + ObstacleImage2Height:
-                        print("715")
                         if man.x<Screen2pos1+obstacle2x:
                             man.x = Screen2pos1 + obstacle2x - playerWidth+1
                 if man.x<Screen2pos1+obstacle2x+ObstacleImage2.get_width():
@@ -734,9 +725,7 @@ def Game():
 
                 if not man.isJump:
                     if Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x or Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x + playerWidth > Screen2pos1 + obstacle2x:
-                        print("756")
                         if man.y + playerHeight == Screen2pos1y+15:
-                            print("758")
                             Screen2obstacle1 = True
                             platform2 = True
                     if Screen2pos2 + obstacle2x + ObstacleImage1.get_width() > man.x > Screen2pos2 + obstacle2x or Screen2pos2 + obstacle2x + ObstacleImage1.get_width() > man.x + playerWidth > Screen2pos2 + obstacle2x:
@@ -749,12 +738,10 @@ def Game():
                             platform2 = True
                     if Screen2pos4 + obstacle2x + ObstacleImage1.get_width() > man.x > Screen2pos4 + obstacle2x or Screen2pos4 + obstacle2x + ObstacleImage1.get_width() > man.x + playerWidth > Screen2pos4 + obstacle2x:
                         if man.y + playerHeight == Screen2pos4y+15:
-                            print("obstacle4")
                             Screen2obstacle4 = True
                             platform2 = True
 
                 if Screen2obstacle1 and not Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x and not Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x + playerWidth > Screen2pos1 + obstacle2x:
-                    print("779")
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
@@ -765,7 +752,6 @@ def Game():
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
-                    print("609")
                     platform2 = False
                     Screen2obstacle2 = False
 
@@ -773,7 +759,6 @@ def Game():
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
-                    print("618")
                     platform2 = False
                     Screen2obstacle3 = False
 
@@ -781,7 +766,6 @@ def Game():
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
-                    print("627")
                     platform2 = False
                     Screen2obstacle4 = False
 
@@ -797,7 +781,6 @@ def Game():
                     variable = 1
             if Screen3 and not game_over:
                 Clock.tick(24)
-                print("Screen3")
 
                 if Screen3pos4+obstacle3x <= 520 and Screen3run:
                     Screens -= 1
@@ -805,20 +788,15 @@ def Game():
 
                 if man.isJump:
                     if (Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x and man.y+playerHeight>Screen3pos1y+15):
-                        print("character is",man.y+playerHeight, "obstacle is",Screen3pos1y+15)
                         over3 = True
                     elif (Screen3pos2 + obstacle3x + ObstacleImage1.get_width() > man.x > Screen3pos2 + obstacle3x and man.y+playerHeight>Screen3pos2y+15):
-                        print("character is", man.y + playerHeight, "obstacle is", Screen3pos2y+15)
                         over3 = True
                     elif (Screen3pos3 + obstacle3x + ObstacleImage1.get_width() > man.x > Screen3pos3 + obstacle3x and man.y+playerHeight>Screen3pos3y+15):
-                        print("character is", man.y + playerHeight, "obstacle is", Screen3pos3y+15)
                         over3 = True
                     elif (Screen3pos4 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos4 + obstacle3x and man.y+playerHeight>Screen3pos4y+15):
-                        print("character is", man.y + playerHeight, "obstacle is", Screen3pos4y+15)
                         over3 = True
 
                 if over3 and man.y + playerHeight > Screen3pos1y+15 and Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x:
-                    print("850")
                     man.y = Screen3pos1y+15 - playerHeight
 
                 elif over3 and man.y + playerHeight > Screen3pos2y+15 and Screen3pos2 + obstacle3x + ObstacleImage1.get_width() > man.x > Screen3pos2 + obstacle3x:
@@ -834,7 +812,6 @@ def Game():
                     over3 = False
 
                 if man.x+playerWidth>Screen3pos1+obstacle3x:
-                    print("866")
                     if man.y+playerHeight>Screen3pos1y+15 and man.y < Screen3pos1y+15 + ObstacleImage2Height:
                         if man.x<Screen3pos1+obstacle3x:
                             man.x = Screen3pos1 + obstacle3x - playerWidth+1
@@ -872,9 +849,7 @@ def Game():
 
                 if not man.isJump:
                     if Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x or Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x + playerWidth > Screen3pos1 + obstacle3x:
-                        print("912")
                         if man.y + playerHeight == Screen3pos1y+15:
-                            print("914")
                             Screen3obstacle1 = True
                             platform3 = True
                     if Screen3pos2 + obstacle3x + ObstacleImage1.get_width() > man.x > Screen3pos2 + obstacle3x or Screen3pos2 + obstacle3x + ObstacleImage1.get_width() > man.x + playerWidth > Screen3pos2 + obstacle3x:
@@ -887,12 +862,10 @@ def Game():
                             platform3 = True
                     if Screen3pos4 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos4 + obstacle3x or Screen3pos4 + obstacle3x + ObstacleImage2.get_width() > man.x + playerWidth > Screen3pos4 + obstacle3x:
                         if man.y + playerHeight == Screen3pos4y+15:
-                            print("obstacle4")
                             Screen3obstacle4 = True
                             platform3 = True
 
                 if Screen3obstacle1 and not Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x and not Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x + playerWidth > Screen3pos1 + obstacle3x:
-                    print("935")
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
@@ -903,7 +876,6 @@ def Game():
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
-                    print("609")
                     platform3 = False
                     Screen3obstacle2 = False
 
@@ -911,7 +883,6 @@ def Game():
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
-                    print("618")
                     platform3 = False
                     Screen3obstacle3 = False
 
@@ -919,7 +890,6 @@ def Game():
                     neg = -1
                     man.y -= (man.jumpCount ** 2) * 0.5 * neg
                     man.jumpCount -= 1
-                    print("627")
                     platform3 = False
                     Screen3obstacle4 = False
 
