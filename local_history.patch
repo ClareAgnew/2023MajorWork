@@ -1,0 +1,67 @@
+Index: Major Work.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Major Work.py b/Major Work.py
+--- a/Major Work.py	
++++ b/Major Work.py	(date 1693311799647)
+@@ -19,7 +19,14 @@
+ font_2 = pygame.font.SysFont("Verdana",30)
+ text_colour_1 = (255,255,255)
+ text_colour_2 = (255,23,15)
+-obstacle = pygame.image.load("token_2.png")
++obstacleImage = pygame.image.load("Platform1.png")
++platform2Image = pygame.image.load ("Platform2.png")
++dropdownImage = pygame.image.load("Dropdown.png")
++buttonImage = pygame.image.load("Button.png")
++buttonOverImage = pygame.image.load("Button_over.png")
++menuImage = pygame.image.load("Menu.png")
++Menu_over = pygame.image.load("Menu_Over.png")
++
+ 
+ playerWidth = (pygame.image.load('Charactere_Idle_Left_0.png')).get_width()*4
+ playerHeight = (pygame.image.load('Charactere_Idle_Left_0.png')).get_height()*4
+@@ -1040,6 +1047,20 @@
+                                 return_button_rect[1] + return_button_rect[3]):
+                             pygame.draw.rect(Screen, returnButton.over_colour, return_button_rect)
+ 
++                    if event.type == pygame.MOUSEBUTTONDOWN:
++                        x, y = event.pos
++                        if (return_button_rect[0] <= x <= return_button_rect[0] + return_button_rect[2] and
++                                return_button_rect[
++                                    1] <= y <= return_button_rect[1] + return_button_rect[3]):
++                            MenuHelp = False
++                        if (menu_button_rect[0] <= x <= menu_button_rect[0] + menu_button_rect[2] and
++                                menu_button_rect[
++                                    1] <= y <= menu_button_rect[1] + menu_button_rect[3]):
++                            if Menu:
++                                Menu = False
++                                MenuHelp = False
++                            elif not Menu and not Died:
++                                Menu = True
+                         if Menu and (
+                                 menu_quit_button_rect[0] <= x <= menu_quit_button_rect[0] + menu_quit_button_rect[
+                             2] and
+@@ -1125,21 +1146,6 @@
+                             man.x = 100
+                             Died = False
+ 
+-                    if event.type == pygame.MOUSEBUTTONDOWN:
+-                        x, y = event.pos
+-                        if (return_button_rect[0] <= x <= return_button_rect[0] + return_button_rect[2] and
+-                                return_button_rect[
+-                                    1] <= y <= return_button_rect[1] + return_button_rect[3]):
+-                            MenuHelp = False
+-                        if (menu_button_rect[0] <= x <= menu_button_rect[0] + menu_button_rect[2] and
+-                                menu_button_rect[
+-                                    1] <= y <= menu_button_rect[1] + menu_button_rect[3]):
+-                            if Menu:
+-                                Menu = False
+-                                MenuHelp = False
+-                            elif not Menu and not Died:
+-                                Menu = True
+-
+                 obstacle(Screen1pos1 + obstacle1x, 520 - obstacleImage.get_height(), obstacleImage.get_width(),
+                          obstacleImage.get_height()).drawObstacle(Screen)
+                 obstacle(Screen1pos2 + obstacle1x, 520 - obstacleImage.get_height(), obstacleImage.get_width(),
