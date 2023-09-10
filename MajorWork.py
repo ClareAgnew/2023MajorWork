@@ -4,8 +4,6 @@ pygame.init()
 
 #Functional Test, Score and High Score display and are updated properly, High Score is stored separately
 
-#-------------------WELCOME----------------------------
-
 Screen = pygame.display.set_mode((520,520))
 pygame.display.set_caption("SDD Assignment 2")
 startGameImage = pygame.image.load('Home Screen.jpg')
@@ -206,6 +204,9 @@ Home = True
 Help = False
 Menu = False
 Died = False
+
+#----------------------1 Home Screen Menu ----------------------
+
 def startGame():
     x, y = (0, 0)
     global game_over
@@ -219,11 +220,18 @@ def startGame():
                     ((Screen.get_width() - ButtonImageWidth) / 2+10, (Screen.get_height() - ButtonImageHeight) / 2 -10))
         Screen.blit(ButtonImage,
                     ((Screen.get_width() - ButtonImageWidth) / 2+10, (Screen.get_height() - ButtonImageHeight) / 2 + 110))
+
+        #---------------------1.1 Detect and respond to events-------------------
+
         for event in pygame.event.get():
+
+            #-------------------1.1.1 Quit ---------------------
+
             if event.type==pygame.QUIT:
                 game_over = True
 
-            # MOUSEBUTTONUP
+            #--------------------1.1.2 Mousebuttonup-----------------
+
             if event.type == pygame.MOUSEBUTTONUP:
                 x, y = event.pos
                 if ((Screen.get_width() - ButtonImageWidth) / 2 + 10 <= x <= (Screen.get_width() - ButtonImageWidth) / 2 + 10 + ButtonImageWidth and (Screen.get_height() - ButtonImageHeight) / 2 + 110 <= y <=
@@ -237,6 +245,8 @@ def startGame():
                 (Screen.get_height() - ButtonImageHeight) / 2 - 10 +ButtonImageHeight):
                     Home = False
                     Help = True
+
+            #-------------------1.1.3 Mousemotion--------------------
 
             if event.type==pygame.MOUSEMOTION:
                 x,y = event.pos
@@ -288,7 +298,7 @@ def startGame():
 
         pygame.display.update()
 
-
+#-------------------------2 Help Screen-----------------------
 
 def help():
     (x,y) = (0,0)
@@ -327,16 +337,24 @@ def help():
                                 0 + (Screen.get_height() - helpText11.get_height()) / 2 + 90))
         Screen.blit(helpText12, ((Screen.get_width() - helpText12.get_width()) / 2 + 10,
                                 0 + (Screen.get_height() - helpText12.get_height()) / 2 + 105))
+
+        #--------------------2.1 Detect and respond to events-------------------------
+
         for event in pygame.event.get():
+
+            #---------------------2.1.1 Quit--------------------
+
             if event.type == pygame.QUIT:
                 game_over = True
 
-            # MOUSEBUTTONUP
+            #---------------------2.1.2 Mousebuttonup-------------------------
+
             if event.type == pygame.MOUSEBUTTONUP:
                 x, y = event.pos
                 if ((Screen.get_width() - ButtonImageWidth) / 2 + 10 <= x <= (Screen.get_width() - ButtonImageWidth) / 2 + 10 + ButtonImageWidth and 390 <= y <= 390+ButtonImageHeight):
                     Home = True
                     Help = False
+            #--------------------2.1.2 Mousemotion---------------------------
 
             if event.type == pygame.MOUSEMOTION:
                 x, y = event.pos
@@ -373,6 +391,8 @@ Screen4obstacle4 = False
 
 Screens = 0
 
+#---------------------3 Main Game Screen---------------------------
+
 def Game():
     Clock = pygame.time.Clock()
     obstacle1x = 520
@@ -382,10 +402,7 @@ def Game():
     background1x = 0
     background2x = 1920
     variable = 0
-    i = 0
-    n = 0
     counter = 1
-    storedi = 0
     Screen1run = False
     Screen2run = False
     Screen3run = False
@@ -398,9 +415,7 @@ def Game():
     youDiedy = -200
     vel = 10
     man.x = 100
-    storedx = man.x
     man.y = 520-playerHeight
-    storedy = man.y
     over1 = False
     over2 = False
     over3 = False
@@ -423,16 +438,24 @@ def Game():
             highScore = 0
     global MenuHelp, game_over, mainGame, Help, Home, Menu, platform1,platform2,platform3,Died
     while not game_over and not Help and not Home:
+
+        #--------------3.1 Start displaying first group of obstacles------------------
+
         if Screens==0:
             Screen1 = True
             Screen1run = True
             Screens += 1
+
+        #-------------3.2 Continue to run Game----------------
 
         while Screens >= 1 and not game_over and not Home:
             scoreCountText = font_1.render(score.__str__(), True, text_colour_1)
             highScoreCountText = font_1.render(highScore.__str__(), True, text_colour_1)
             scoreText = font_1.render(("Score:"), True, text_colour_1)
             highScoreText = font_1.render(("High Score:"), True, text_colour_1)
+
+            #--------------3.2.1 Detect Keyboard inputs-----------------
+
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_LEFT] and not Menu and not Died:
@@ -474,6 +497,8 @@ def Game():
                     man.isJump = False
                     man.jumpCount = 10
 
+            #----------------3.2.2 Randomly assign a collection of platforms------------------------
+
             while Screens == 1:
                 n = random.randint(0, 2)
                 if n == 0 and not(Screen1):
@@ -508,12 +533,14 @@ def Game():
             you_died_rect = [(Screen.get_width() - youDied.width) / 2, youDiedy - youDied.height,
                              youDied.width, youDied.height]
 
+            #----------------3.2.3 Fall if not on a platform--------------------
 
             if not platform1 and not platform2 and not platform3 and not man.isJump and man.y + playerHeight < 520:
                 man.y -= ((10 - modifier) ** 2) * 0.5 * -1
                 modifier += 1
 
-            if obstacley % (15 + variable) == 0:
+            #---------------3.2.4 Move platforms across the screen and the player if on a platform--------------
+            if obstacley % (15 + variable) == 0 and not Menu and not Died:
                 if Screen1:
                     obstacle1x -= 20
                 if Screen2:
@@ -522,20 +549,25 @@ def Game():
                     obstacle3x -= 20
                 if (platform1 or platform2 or platform3) and not man.isJump:
                     man.x -= 20
+            #--------------3.2.5 Character Animation----------------------
 
             for r in range(len(walkRight)):
                 walkRight[r] = pygame.transform.scale(walkRight[r], (playerWidth, playerHeight))
             for r in range(len(walkLeft)):
                 walkLeft[r] = pygame.transform.scale(walkLeft[r], (playerWidth, playerHeight))
 
-
+            #-------------3.2.6 Control first group of platforms------------------
 
             if Screen1 and not game_over:
                 Clock.tick(24)
 
+                #-------------------3.2.6.1 Detect when Screen 1 is beyond the right side of the screen-----------------
+
                 if Screen1pos4+obstacle1x <= 520 and Screen1run:
                     Screens -= 1
                     Screen1run = False
+
+                #------------------3.2.6.2 Detect that the player is over a platform-----------------
 
                 if man.isJump:
                     if (Screen1pos1 + obstacle1x + ObstacleImage1.get_width() > man.x > Screen1pos1 + obstacle1x and man.y+playerHeight>Screen1pos1y+15):
@@ -546,6 +578,8 @@ def Game():
                         over1 = True
                     elif (Screen1pos4 + obstacle1x + ObstacleImage1.get_width() > man.x > Screen1pos4 + obstacle1x and man.y+playerHeight>Screen1pos4y+15):
                         over1 = True
+
+                #------------------3.2.6.3 If player has moved from above a platform to below, move to on the platform------------------
 
                 if over1 and man.y + playerHeight > Screen1pos1y+15 and Screen1pos1 + obstacle1x + ObstacleImage1.get_width() > man.x > Screen1pos1 + obstacle1x:
                     man.y = Screen1pos1y+15 - playerHeight
@@ -561,6 +595,8 @@ def Game():
 
                 if not man.isJump:
                     over1 = False
+
+                #--------------------------3.2.6.4 If the player has moved into the object horizontally, move them next to the object-------------------
 
                 if man.x+playerWidth>Screen1pos1+obstacle1x:
                     if man.y+playerHeight>Screen1pos1y+15 and man.y < Screen1pos1y+15 + ObstacleImage1Height:
@@ -598,6 +634,8 @@ def Game():
                         if man.x > Screen1pos4 + obstacle1x:
                             man.x = Screen1pos4 + obstacle1x + ObstacleImage1.get_width()
 
+                #---------------------3.2.6.5 Detects if the player is on a platform, and determines which platform-------------------
+
                 if not man.isJump:
                     if Screen1pos1 + obstacle1x + ObstacleImage1.get_width() > man.x > Screen1pos1 + obstacle1x or Screen1pos1 + obstacle1x + ObstacleImage1.get_width() > man.x + playerWidth > Screen1pos1 + obstacle1x:
                         if man.y + playerHeight == Screen1pos1y+15:
@@ -615,6 +653,8 @@ def Game():
                         if man.y + playerHeight == Screen1pos4y+15:
                             Screen1obstacle4 = True
                             platform1 = True
+
+                #-------------------3.2.6.6 Detects when the player has moved of a platform------------------
 
                 if Screen1obstacle1 and not Screen1pos1 + obstacle1x + ObstacleImage1.get_width() > man.x > Screen1pos1 + obstacle1x and not Screen1pos1 + obstacle1x + ObstacleImage1.get_width() > man.x + playerWidth > Screen1pos1 + obstacle1x:
                     neg = -1
@@ -655,12 +695,19 @@ def Game():
                     variable -= 1
                 if variable < 1:
                     variable = 1
+
+            # -------------3.2.7 Control second group of platforms------------------
+
             if Screen2 and not game_over:
                 Clock.tick(24)
+
+                # -------------------3.2.7.1 Detect when Screen 1 is beyond the right side of the screen-----------------
 
                 if Screen2pos4+obstacle2x <= 520 and Screen2run:
                     Screens -= 1
                     Screen2run = False
+
+                # ------------------3.2.7.2 Detect that the player is over a platform-----------------
 
                 if man.isJump:
                     if (Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x and man.y+playerHeight>Screen2pos1y+15):
@@ -671,6 +718,8 @@ def Game():
                         over2 = True
                     elif (Screen2pos4 + obstacle2x + ObstacleImage1.get_width() > man.x > Screen2pos4 + obstacle2x and man.y+playerHeight>Screen2pos4y+15):
                         over2 = True
+
+                # ------------------3.2.7.3 If player has moved from above a platform to below, move to on the platform------------------
 
                 if over2 and man.y + playerHeight > Screen2pos1y+15 and Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x:
                     man.y = Screen2pos1y+15 - playerHeight
@@ -686,6 +735,8 @@ def Game():
 
                 if not man.isJump:
                     over2 = False
+
+                # --------------------------3.2.7.4 If the player has moved into the object horizontally, move them next to the object-------------------
 
                 if man.x+playerWidth>Screen2pos1+obstacle2x:
                     if man.y+playerHeight>Screen2pos1y+15 and man.y < Screen2pos1y+15 + ObstacleImage2Height:
@@ -723,6 +774,8 @@ def Game():
                         if man.x > Screen2pos4 + obstacle2x:
                             man.x = Screen2pos4 + obstacle2x + ObstacleImage1.get_width()
 
+                # ---------------------3.2.7.5 Detects if the player is on a platform, and determines which platform-------------------
+
                 if not man.isJump:
                     if Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x or Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x + playerWidth > Screen2pos1 + obstacle2x:
                         if man.y + playerHeight == Screen2pos1y+15:
@@ -740,6 +793,8 @@ def Game():
                         if man.y + playerHeight == Screen2pos4y+15:
                             Screen2obstacle4 = True
                             platform2 = True
+
+                # -------------------3.2.7.6 Detects when the player has moved of a platform------------------
 
                 if Screen2obstacle1 and not Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x > Screen2pos1 + obstacle2x and not Screen2pos1 + obstacle2x + ObstacleImage2.get_width() > man.x + playerWidth > Screen2pos1 + obstacle2x:
                     neg = -1
@@ -779,12 +834,19 @@ def Game():
                     variable -= 1
                 if variable < 1:
                     variable = 1
+
+            # -------------3.2.8 Control third group of platforms------------------
+
             if Screen3 and not game_over:
                 Clock.tick(24)
+
+                # -------------------3.2.8.1 Detect when Screen 1 is beyond the right side of the screen-----------------
 
                 if Screen3pos4+obstacle3x <= 520 and Screen3run:
                     Screens -= 1
                     Screen3run = False
+
+                # ------------------3.2.8.2 Detect that the player is over a platform-----------------
 
                 if man.isJump:
                     if (Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x and man.y+playerHeight>Screen3pos1y+15):
@@ -795,6 +857,8 @@ def Game():
                         over3 = True
                     elif (Screen3pos4 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos4 + obstacle3x and man.y+playerHeight>Screen3pos4y+15):
                         over3 = True
+
+                # ------------------3.2.8.3 If player has moved from above a platform to below, move to on the platform------------------
 
                 if over3 and man.y + playerHeight > Screen3pos1y+15 and Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x:
                     man.y = Screen3pos1y+15 - playerHeight
@@ -810,6 +874,8 @@ def Game():
 
                 if not man.isJump:
                     over3 = False
+
+                # --------------------------3.2.8.4 If the player has moved into the object horizontally, move them next to the object-------------------
 
                 if man.x+playerWidth>Screen3pos1+obstacle3x:
                     if man.y+playerHeight>Screen3pos1y+15 and man.y < Screen3pos1y+15 + ObstacleImage2Height:
@@ -847,6 +913,8 @@ def Game():
                         if man.x > Screen3pos4 + obstacle3x:
                             man.x = Screen3pos4 + obstacle3x + ObstacleImage2.get_width()
 
+                # ---------------------3.2.8.5 Detects if the player is on a platform, and determines which platform-------------------
+
                 if not man.isJump:
                     if Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x or Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x + playerWidth > Screen3pos1 + obstacle3x:
                         if man.y + playerHeight == Screen3pos1y+15:
@@ -864,6 +932,8 @@ def Game():
                         if man.y + playerHeight == Screen3pos4y+15:
                             Screen3obstacle4 = True
                             platform3 = True
+
+                # -------------------3.2.8.6 Detects when the player has moved of a platform------------------
 
                 if Screen3obstacle1 and not Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x > Screen3pos1 + obstacle3x and not Screen3pos1 + obstacle3x + ObstacleImage2.get_width() > man.x + playerWidth > Screen3pos1 + obstacle3x:
                     neg = -1
@@ -899,20 +969,27 @@ def Game():
                     Screen3 = False
                     obstacle3x = 520
 
-                if obstacley % 1000 == 0:
+                if obstacley % 1000 == 0 and not Menu and not Died:
                     variable -= 1
                 if variable < 1:
                     variable = 1
+
+            #--------------------3.9 Move the background------------------------
 
             if not Menu:
                 background1x -= 1
                 background2x -= 1
 
+            #-------------------3.10 Detect when the player has passed the first obstacle--------------------
+            
             if man.x+playerWidth>=Screen1pos1+obstacle1x:
                 Begin = True
 
             Screen.blit(playGameImage, (0 + background1x, 0))
             Screen.blit(playGameImage, (0 + background2x, 0))
+            
+            #-------------------3.11 Loop the background------------------------
+            
             if background1x == -playGameImage.get_width():
                 background1x = background2x + playGameImage.get_width()
             if background2x == -playGameImage.get_width():
@@ -920,6 +997,8 @@ def Game():
 
             Screen.blit(DropdownImage, ((Screen.get_width()-DropdownImageWidth)/2, Screeny-DropdownImageWidth-80))
             pygame.draw.rect(Screen, menuButton.colour, menu_button_rect)
+
+            #--------------3.12 Draw first screen of the dropdown menu---------------
 
             if not MenuHelp:
                 Screen.blit(ButtonImage, ((Screen.get_width() - ButtonImageWidth) / 2 + 10, Screeny - (Screen.get_height() - ButtonImageHeight) / 2 + 50))
@@ -929,6 +1008,8 @@ def Game():
                 Screen.blit(ButtonImage,
                             ((Screen.get_width() - ButtonImageWidth) / 2 + 10,
                              Screeny - (Screen.get_height() - ButtonImageHeight) / 2 + 110))
+
+            #-------------------3.13 Draw the second screen of the dropdown menu---------------------------------
 
             if MenuHelp:
                 Screen.blit(ButtonImage,((Screen.get_width() - ButtonImageWidth) / 2 + 10,
@@ -941,9 +1022,18 @@ def Game():
                                         youDiedy - ButtonImageHeight-10))
             Screen.blit(ButtonImage,((Screen.get_width() - ButtonImageWidth) / 2,
                                         youDiedy - ButtonImageHeight-70))
+
+
+            #---------------------3.14 Detect and respond to events----------------------
+
             for event in pygame.event.get():
+
+                #-------------3.14.1 Quit-----------------
+
                 if event.type == pygame.QUIT:
                     game_over = True
+
+                #-----------3.14.2 Mousebuttonup-------------
 
                 if event.type == pygame.MOUSEBUTTONUP:
                     x, y = event.pos
@@ -1005,6 +1095,7 @@ def Game():
                         background2x = 1920
                         variable = 0
                         counter = 1
+                        score = 0
                         Screen1 = False
                         Screen2 = False
                         Screen3 = False
@@ -1032,9 +1123,11 @@ def Game():
                         Screen4obstacle4 = False
                         Screens = 0
                         man.x = 100
-                        Score = 0
                         Died = False
                         Begin = False
+
+                #-----------------3.14.3 Mousemotion---------------
+
                 if event.type == pygame.MOUSEMOTION:
                     x, y = event.pos
             if (menu_button_rect[0] <= x <= menu_button_rect[0] + menu_button_rect[2] and menu_button_rect[
@@ -1124,6 +1217,7 @@ def Game():
                         (menu_button_rect[0] + (menuButton.width - menuButton.text.get_width()) / 2,
                          menu_button_rect[1] + (menuButton.height / 2 - menuButton.text.get_height() / 2) - 2.5))
 
+            #------------------3.15 Print text on first screen--------------------
 
             if not MenuHelp:
                 Screen.blit(homeButton.text,
@@ -1140,6 +1234,8 @@ def Game():
                                      ButtonImageHeight / 2 - helpButton.text.get_height() / 2)))
                 Screen.blit(menuName, ((Screen.get_width() - menuName.get_width()) / 2,
                                        0 + (Screen.get_height() - menuName.get_height()) / 2 - 600 + Screeny))
+
+            #-------------------------3.16 print text on second screen-------------------------
 
             if MenuHelp:
                 Screen.blit(helpName, ((Screen.get_width() - helpName.get_width()) / 2,
@@ -1179,6 +1275,8 @@ def Game():
             Screen.blit(scoreCountText,(scoreText.get_width()+15,10))
             Screen.blit(highScoreCountText, (highScoreText.get_width() + 15, 40))
 
+            #--------------------3.17 Pause game if player touches the left side of the screen---------------------
+
             if man.x <= 0 or (man.y+playerHeight>=520 and Begin):
                 Screen1 = False
                 Screen1run = False
@@ -1194,23 +1292,28 @@ def Game():
                 Screens = 0
                 Died = True
 
-            else:
-                Died = False
+            #-------------------------3.18 Move Died Screen---------------------------
+
             if Died:
                 if youDiedy < 350:
                     youDiedy+=150
                 elif youDiedy > 350:
                     youDiedy = 350
+
             if not Died:
                 if youDiedy> -500:
                     youDiedy -= 150
                 if youDiedy<-500:
                     youDiedy = -500
 
+            #------------------------3.19 Prevent player from moving outside the boundairies of the game---------------------
+
             if man.y > Screen.get_height() - playerHeight:
                 man.y = 520 - playerHeight
             if man.x > (Screen.get_width() - playerWidth):
                 man.x = Screen.get_width() - playerWidth
+
+            #----------------3.20 Move dropdown menu--------------------
 
             if Menu and Screeny < 500:
                 Screeny += 75
@@ -1223,7 +1326,9 @@ def Game():
             if not Menu and not Died:
                 obstacley += 1
 
-            if not Died and obstacley % 10 == 0:
+            #-------------------3.21 Increase score-------------------
+
+            if not Died and not Menu and obstacley % 10 == 0:
                 score += 1
             if score > highScore:
                 with open("score.txt", "w") as file:
