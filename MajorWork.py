@@ -1032,6 +1032,7 @@ def Game():
                         Screen4obstacle4 = False
                         Screens = 0
                         man.x = 100
+                        Score = 0
                         Died = False
                         Begin = False
                 if event.type == pygame.MOUSEMOTION:
